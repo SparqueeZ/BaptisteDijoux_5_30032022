@@ -10,7 +10,7 @@ const showListProduct = async () => {
                  <img src="${product.imageUrl}" alt="${product.altTxt}">
                  <p class="productDescription">${product.description}</p>  
              </article>`
-    })
+    });
 
     getItems.innerHTML = productHTML;
 
