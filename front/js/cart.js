@@ -1,27 +1,51 @@
-const showCart = async (cart) => {
+const isCartEmpty = (cart) => {
   const errorMessageEmptyCart =
     "Votre panier est vide, vous allez être redirigé vers la page d'accueil";
-
-  const insideCart = loadCart();
-  // console.log(insideCart);
-  if (insideCart === null) {
+  if (cart === null || cart.length === 0) {
     window.alert(errorMessageEmptyCart);
     window.location.href = "index.html";
     return;
   }
-  // console.log(insideCart);
+}
+
+const showCart = async (cart) => {
+
+  const insideCart = loadCart();
+  const cartWithPrice = [];
+  isCartEmpty(insideCart);
+
+  //Récupérer les prix
+  const productList = await get("http://localhost:3000/api/products");
+
+  insideCart.forEach((item) => {
+
+    const indexOfProductForPrice = productList.find(
+      (product) => product._id === item._id
+    );
+
+    const productWithPrice = {
+      _id: item._id,
+      altTxt: item.altTxt,
+      name: item.name,
+      description: item.description,
+      imageUrl: item.imageUrl,
+      color: item.color,
+      qty: item.qty,
+      price: indexOfProductForPrice.price,
+    };
+
+    cartWithPrice.push(productWithPrice);
+  });
 
   getItems = document.getElementById("cart__items");
   let insertCartHTML = "";
-  let kanapPrice = 0;
-  let displayQty = "";
-  let testIdReplace = [];
 
-  insideCart.forEach((order) => {
-    displayQty = order.qty;
-    kanapPrice = 42 * parseInt(order.qty);
-    let displayId = [order._id];
-    testIdReplace = order._id;
+  let qtyKanap = 0;
+
+  calculTotalQty(cartWithPrice);
+
+  cartWithPrice.forEach((order) => {
+    qtyKanap = order.qty
 
     insertCartHTML += `<article class="cart__item" data-id="${order._id}" data-color="${order.color}">
         <div class="cart__item__img">
@@ -31,7 +55,7 @@ const showCart = async (cart) => {
                   <div class="cart__item__content__description">
                     <h2>${order.name}</h2>
                     <p>${order.color}</p>
-                    <p>${kanapPrice} €</p>
+                    <p>${order.price} €</p>
                   </div>
                   <div class="cart__item__content__settings">
                     <div class="cart__item__content__settings__quantity">
@@ -40,59 +64,54 @@ const showCart = async (cart) => {
                     </div>
                     <div class="cart__item__content__settings__delete">
                       <p class="deleteItem">Supprimer</p>
-                      <p> <a class="cart__item__content__description" href="./product.html?id=${order._id}">Aller au produit </a> </p>
                     </div>
                   </div>
                 </div>
-              </article>
-              <div id="${testIdReplace}"><a href="./product.html?id=${order._id}">Salut</a></div>`;
+              </article>`;
   });
-
-  insideCart.forEach((order) => {
-    // console.log(displayQty);
-    // console.log(kanapPrice);
-    // console.log(testIdReplace);
-  });
-
   getItems.innerHTML = insertCartHTML;
 
-  // Nombre total des articles
-  let totalKanapQuantity = 0;
-  insideCart.forEach((order) => {
-    totalKanapQuantity += order.qty++;
-  });
-
-  // Insérer le total sur la page
-  insertTotalQuantityHTML = document.getElementById("totalQuantity");
-  let kanapNumber = 0 + totalKanapQuantity;
-  insertTotalQuantityHTML.innerHTML = kanapNumber;
-
   //Changer la qté
-  document.querySelectorAll(".itemQuantity").forEach((itemQuantity) => {
-    itemQuantity.addEventListener("change", () => {
-      console.log("Changer la qté");
-      console.log("Ancien :", kanapNumber);
-      kanapNumber = displayQty;
-      console.log("Nouveau :", kanapNumber);
+  document.querySelectorAll(".itemQuantity").forEach((changeItemQty) => {
+    changeItemQty.addEventListener("change", (event) => {
+
+      qtyItem = event.target.value;
+      if (qtyItem > 100) {
+        qtyItem = 100;
+        window.alert("La quantité maximale de produits est de 100. Vous ne pouvez pas en avoir plus.");
+        event.target.value = 100;
+
+      }
+      if (qtyItem < 1) {
+        qtyItem = 1;
+        window.alert("La quantité minimale de produits est de 1. Vous ne pouvez pas en avoir moins.");
+        event.target.value = 1;
+      }
+      productItem = event.target.closest(".cart__item");
+      const kanapCart = changeKanapQty(qtyItem, cartWithPrice, productItem.dataset.id);
+
+      // Changer l'élément du DOM
+      calculTotalQty(kanapCart);
     });
   });
 
-  //Supprimer, Look findIndex et splice
-
-  // A revoir
-  console.log(insideCart);
+  //Supprimer
   document.querySelectorAll(".deleteItem").forEach((deleteItem) => {
-    deleteItem.addEventListener("click", () => {
-      const Salut = insideCart.findIndex(
-        (deleteItem) => deleteItem._id === "77711f0e466b4ddf953f677d30b0efc9"
-      );
-      console.log(Salut);
-      console.log(insideCart.slice(2, 4));
+    deleteItem.addEventListener("click", (event) => {
+      //Cibler l'élément pour récupérer l'id
+      productItem = event.target.closest(".cart__item");
+      // Supprimer l'item du localStorage
+      const kanapCart = deleteKanap(productItem.dataset.id, cartWithPrice);
+      console.log(cartWithPrice);
+      // Supprimer l'item du DOM
+      productItem.remove();
+
+      calculTotalQty(kanapCart);
+
+      isCartEmpty(kanapCart);
     });
   });
 
-  const productList = await get("http://localhost:3000/api/products");
-  // console.log(productList);
 };
 
 showCart();
