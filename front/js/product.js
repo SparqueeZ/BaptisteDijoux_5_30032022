@@ -61,7 +61,7 @@ const showProductInfos = async () => {
 
     // Fin
     addToBasket(product, articleColor, articleNumber);
-    // window.location.href = 'cart.html';
+    window.location.href = 'cart.html';
   });
 };
 
