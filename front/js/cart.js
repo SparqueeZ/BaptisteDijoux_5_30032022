@@ -114,59 +114,25 @@ const showCart = async (cart) => {
 
 };
 
-const verifyName = (itemName, itemNameErrorMessage, infoName) => {
-  const value = document.getElementById(itemName).value;
-  const itemError = document.getElementById(itemNameErrorMessage);
 
-  if (value.length < 1) {
-    itemError.innerHTML = `Le champ "${infoName}" ne peut pas être vide.`;
-    isValid = false;
-  }
-}
 
-const verifyAddress = (itemName, itemNameErrorMessage, infoName) => {
-  const value = document.getElementById(itemName).value;
-  const itemError = document.getElementById(itemNameErrorMessage);
-
-  if (value.length < 1) {
-    itemError.innerHTML = `Le champ "${infoName}" ne peut pas être vide.`
-  }
-}
-
-const verifyCity = (itemName, itemNameErrorMessage, infoName) => {
-  const value = document.getElementById(itemName).value;
-  const itemError = document.getElementById(itemNameErrorMessage);
-
-  if (value.length < 1) {
-    itemError.innerHTML = `Le champ "${infoName}" ne peut pas être vide.`
-  }
-}
-
-const verifyMail = (itemName, itemNameErrorMessage, infoName) => {
-  const value = document.getElementById(itemName).value;
-  const itemError = document.getElementById(itemNameErrorMessage);
-
-  if (value.length < 1) {
-    itemError.innerHTML = `Le champ "${infoName}" ne peut pas être vide.`
-  }
-}
-
-const verifyForm = (itemName, itemNameErrorMessage, infoName) => {
+const verifyForm = () => {
 
   document.getElementById("order").addEventListener("click", (event) => {
     event.preventDefault();
 
-    let isValid = true;
     // Faire les tests des inputs
-    verifyName("firstName", "firstNameErrorMsg", "Prénom");
-    verifyName("lastName", "lastNameErrorMsg", "Nom");
-    verifyAddress("address", "addressErrorMsg", "Adresse");
-    verifyCity("city", "cityErrorMsg", "Ville");
-    verifyMail("email", "emailErrorMsg", "Email");
-    if (isValid) {
+    const isValidFirstName = verifyName("firstName", "firstNameErrorMsg", "Prénom");
+    const isValidLastName = verifyName("lastName", "lastNameErrorMsg", "Nom");
+    const isValidAdress = verifyAddress("address", "addressErrorMsg", "Adresse");
+    const isValidCity = verifyCity("city", "cityErrorMsg", "Ville");
+    const isValidMail = verifyMail("email", "emailErrorMsg", "Email");
+    if (isValidFirstName && isValidLastName && isValidAdress && isValidCity && isValidMail) {
       console.log('envoyer au server les infos');
       const orderId = 'test';
-      //window.location.assign(`confirmation.html?orderId=${orderId}`);
+      window.location.assign(`confirmation.html?orderId=${orderId}`);
+    } else {
+      console.log("Pas valide");
     }
 
   })
