@@ -4,18 +4,18 @@ const get = async (url) => {
         return await reponse.json();
     }
     return -1;
+};
 
-
-    // fetch(url)
-    //     .then((result) => {
-    //         if (result.ok) {
-    //             return result.json();
-    //         }
-    //     })
-    //     .then((items) => {
-    //         console.log(items);
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     });
+const post = async (url, body) => {
+    const reponse = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(body)
+    });
+    if (reponse.status === 201) {
+        return await reponse.json();
+    }
+    return -1;
 };

@@ -130,12 +130,42 @@ const verifyForm = () => {
     if (isValidFirstName && isValidLastName && isValidAdress && isValidCity && isValidMail) {
       console.log('envoyer au server les infos');
       const orderId = 'test';
+
+      const contact = {
+        firstName: document.getElementById("firstName").value,
+        lastName: document.getElementById("lastName").value,
+        address: document.getElementById("address").value,
+        city: document.getElementById("city").value,
+        email: document.getElementById("email").value,
+      }
+
+      const cart = loadCart();
+      const products = [];
+      cart.forEach((product) => {
+        products.push(product._id);
+      });
+
+      const body = {
+        contact,
+        products
+      }
+
+      const orderPromise = post('http://localhost:3000/api/products/order', body);
+      orderPromise.then((order) => {
+        if (order === -1) {
+          window.alert('Message erreur');
+          return;
+        }
+      })
+
       window.location.assign(`confirmation.html?orderId=${orderId}`);
     } else {
       console.log("Pas valide");
     }
 
+
   })
+
 }
 verifyForm();
 
