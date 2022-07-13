@@ -1,3 +1,4 @@
+// Fonction créée dans le but de mettre en page le produit
 const showProductInfos = async () => {
   const alertMessageNoId =
     "Vous n'avez pas choisi de produit, veuillez en choisir un à la page d'acceuil";
@@ -23,6 +24,9 @@ const showProductInfos = async () => {
     window.location.href = "index.html";
     return;
   }
+
+  // Changer le title de la page afin de correspondre au nom du produit
+  document.querySelector('title').textContent = `${product.name}`;
 
   //Intégrer les images
   document.getElementsByClassName(
@@ -59,7 +63,7 @@ const showProductInfos = async () => {
       return;
     }
 
-    // Fin
+    // Fin : Ajout au localStorage et redirection vers la page panier
     addToBasket(product, articleColor, articleNumber);
     window.location.href = 'cart.html';
   });

@@ -1,13 +1,17 @@
+// Document basket.js : Library créée dans le but de simplifier le chargement et la sauvegarde du panier afin de ne pas impacter les perforamances serveur
+
+// Charger le panier
 const loadCart = () => {
   return JSON.parse(localStorage.getItem("panierKanap")) || [];
 };
 
+// Sauvegarder le panier
 const saveCart = (recievedCart) => {
   localStorage.setItem("panierKanap", JSON.stringify(recievedCart));
 };
 
+// Fonction lancée lors du clic afin d'ajouter au panier la commande créée
 const addToBasket = (product, productColor, productQty) => {
-  // Produit, qtté et color
 
   const alertMessageTooMuchKanapInCart =
     "Il est impossible d'avoir plus de 100 articles";
@@ -19,8 +23,6 @@ const addToBasket = (product, productColor, productQty) => {
       kanapCart._id === product._id && kanapCart.color === productColor
   );
 
-  //Tester la qté product.qty + kanapFind.qty if < 1 ou > 100 aucune modif,
-
   if (kanapFind === undefined) {
     kanapTotalQty = productQty;
   } else {
@@ -28,12 +30,9 @@ const addToBasket = (product, productColor, productQty) => {
     if (kanapTotalQty > 100) {
       window.alert(alertMessageTooMuchKanapInCart);
       kanapTotalQty -= productQty;
-      console.log(kanapTotalQty);
       return;
     }
   }
-
-  // Ajouter au panier
 
   if (kanapFind === undefined) {
     const orderKanap = {
@@ -53,8 +52,7 @@ const addToBasket = (product, productColor, productQty) => {
   saveCart(cart);
 };
 
-
-
+// Fonction lancée lors du clic afin de supprimer du panier le produit selectionné
 const deleteKanap = (productId, cartWithPrice) => {
 
   const cart = loadCart();
@@ -76,6 +74,7 @@ const deleteKanap = (productId, cartWithPrice) => {
   return cartWithPrice;
 };
 
+// Fonction lancée lors du clic afin de recalculé le prix total du panier
 const calculTotalQty = (cartWithPrice) => {
 
   //Calculer le total
@@ -85,7 +84,6 @@ const calculTotalQty = (cartWithPrice) => {
     totalKanapQuantity += order.qty;
     totalKanapPrice += order.price * order.qty;
   });
-
   //Insérer le total Articles
   const kanapTotalNumber = 0 + totalKanapQuantity;
   document.getElementById("totalQuantity").innerHTML = kanapTotalNumber;
@@ -94,7 +92,7 @@ const calculTotalQty = (cartWithPrice) => {
   document.getElementById("totalPrice").innerHTML = kanapTotalPrice;
 };
 
-//Modifier la qty
+// Fonction lancée lors du clic afin de changer dynamiquement le nombre de produits
 const changeKanapQty = (qtyItem, cartWithPrice, productId) => {
   const cart = loadCart();
 
@@ -114,8 +112,6 @@ const changeKanapQty = (qtyItem, cartWithPrice, productId) => {
     color: kanapToChange.color,
     qty: parseInt(qtyItem),
   };
-
-
 
   cart.splice(indexOfQtyKanap, 1, newKanapQty)
 
