@@ -9,10 +9,9 @@ const showProductInfos = async () => {
   const alertMessageNoColor =
     "Vous devez sélectionner une couleur pour le produit sélectionné";
 
-  const searchParams = new URLSearchParams(window.location.search);
   const idProduct = new URLSearchParams(window.location.search).get("id");
 
-  if (idProduct === null) {
+  if (idProduct === null || idProduct === '') {
     window.alert(alertMessageNoId);
     window.location.href = "index.html";
     return;

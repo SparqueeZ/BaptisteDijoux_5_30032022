@@ -14,14 +14,14 @@ const verifyName = (itemName, itemNameErrorMessage, infoName,) => {
 
     // Si le champ est vide, il n'est pas valide
     if (value.length < 1) {
-        itemError.innerHTML = `Le champ "${infoName}" ne peut pas être vide.`;
+        itemError.innerHTML = `Le champ "${infoName}" ne peut pas être vide. Exemple : Jean`;
         return false;
     }
 
     // Si le champ ne rempli pas les caractéristiques requises par les regex, il n'est pas valide
     const regex = /^[a-zA-ZàâéèêçÂÊÇÉÈ\-\ \']+$/;
     if (regex.test(value) === false) {
-        itemError.innerHTML = `Le champ "${infoName}" ne doit pas contenir de caractères spéciaux ou de nombres.`;
+        itemError.innerHTML = `Le champ "${infoName}" ne doit pas contenir de caractères spéciaux ou de nombres. Exemple : Payet`;
         return false;
     }
     //Retourne true si le champ ne contient aucune des erreurs vérifiés ci dessus
@@ -41,7 +41,7 @@ const verifyAddress = (itemName, itemNameErrorMessage, infoName) => {
 
     const regex = /^[0-9][a-zA-ZàâéèêçÂÊÇÉÈ\-\ \']+$/;
     if (regex.test(value) === false) {
-        itemError.innerHTML = `Le champ "${infoName}" ne doit pas contenir de caractères spéciaux ou de nombres.`;
+        itemError.innerHTML = `Le champ "${infoName}" doit être au format d'une adresse postale. Exemple : 2bis Chemin Burbata`;
         return false;
     }
     return true;
@@ -60,7 +60,7 @@ const verifyCity = (itemName, itemNameErrorMessage, infoName) => {
 
     const regex = /^[a-zA-ZàâéèêçÂÊÇÉÈ\-\ \']+$/;
     if (regex.test(value) === false) {
-        itemError.innerHTML = `Le champ "${infoName}" ne doit pas contenir de caractères spéciaux ou de nombres.`;
+        itemError.innerHTML = `Le champ "${infoName}" ne doit pas contenir de caractères spéciaux ou de nombres. Exemple : Le Tampon`;
         return false;
     }
     return true;
@@ -79,7 +79,7 @@ const verifyMail = (itemName, itemNameErrorMessage, infoName) => {
 
     const regex = /^[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
     if (regex.test(value) === false) {
-        itemError.innerHTML = `Le champ "${infoName}" doit correspondre à une adresse mail.`;
+        itemError.innerHTML = `Le champ "${infoName}" doit correspondre à une adresse mail. Exemple : exemple@gmail.com`;
         return false;
     }
     return true;
