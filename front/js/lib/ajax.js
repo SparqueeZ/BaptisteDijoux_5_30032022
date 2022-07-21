@@ -6,7 +6,7 @@ const get = async (url) => {
     if (reponse.ok) {
         return await reponse.json();
     }
-    return -1;
+    return -1; 
 };
 
 // Fetch utilisant la méthode POST afin d'obtenir l'orderId grâce a l'envoi des informations nécessaires (infos de contact et infos de la commande) au serveur
