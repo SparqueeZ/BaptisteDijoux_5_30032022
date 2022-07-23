@@ -93,11 +93,12 @@ const calculTotalQty = (cartWithPrice) => {
 };
 
 // Fonction lancée lors du clic afin de changer dynamiquement le nombre de produits
-const changeKanapQty = (qtyItem, cartWithPrice, productId) => {
+const changeKanapQty = (qtyItem, cartWithPrice, productId, productColor) => {
   const cart = loadCart();
 
+  console.log(cart);
   const indexOfQtyKanap = cart.findIndex(
-    (changeQtyItem) => changeQtyItem._id === productId
+    (changeQtyItem) => changeQtyItem._id === productId && changeQtyItem.color === productColor
   );
 
   kanapToChange = cartWithPrice[indexOfQtyKanap];
@@ -118,7 +119,7 @@ const changeKanapQty = (qtyItem, cartWithPrice, productId) => {
   saveCart(cart);
 
   const indexOfQtyKanapWithPrice = cartWithPrice.findIndex(
-    (changeQtyItem) => changeQtyItem._id === productId
+    (changeQtyItem) => changeQtyItem._id === productId && changeQtyItem.color === productColor
   );
 
   const newKanapQtyWithPrice = {

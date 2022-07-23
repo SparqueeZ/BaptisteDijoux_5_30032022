@@ -87,7 +87,7 @@ const showCart = async (cart) => {
         event.target.value = 1;
       }
       productItem = event.target.closest(".cart__item");
-      const kanapCart = changeKanapQty(qtyItem, cartWithPrice, productItem.dataset.id);
+      const kanapCart = changeKanapQty(qtyItem, cartWithPrice, productItem.dataset.id, productItem.dataset.color);
 
       calculTotalQty(kanapCart);
     });
