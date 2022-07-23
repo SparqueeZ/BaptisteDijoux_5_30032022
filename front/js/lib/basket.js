@@ -96,7 +96,6 @@ const calculTotalQty = (cartWithPrice) => {
 const changeKanapQty = (qtyItem, cartWithPrice, productId, productColor) => {
   const cart = loadCart();
 
-  console.log(cart);
   const indexOfQtyKanap = cart.findIndex(
     (changeQtyItem) => changeQtyItem._id === productId && changeQtyItem.color === productColor
   );
